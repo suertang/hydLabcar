@@ -770,8 +770,7 @@ class asap3extended_execute_service(asap3service):
         return resp
 
 
-        
-
+		
 class asap3client:
     def __init__(self,host=None,port=None,timeout=30):
         self._init_logger()
