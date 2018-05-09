@@ -1,7 +1,8 @@
 #########
 import serial
 import time
-import _thread
+
+import threading
 ############
 
 
@@ -16,9 +17,11 @@ class SpdCtl:
 		#mSerial=SpdCtl('COM1',9600)
 		#time.sleep(0.1)
 		#_thread.start_new_thread(self.read_data,())
+		self._running=True
 		time.sleep(0.1)
-		_thread.start_new_thread(self.send_heartbeat,()) #watch dog
-		time.sleep(0.1)
+		self.t=threading.Thread(target=self.send_heartbeat) 
+        #watch dog
+        time.sleep(0.1)
 		self.send_data("\nRs\r") #init 
 		time.sleep(0.1)
 		self.send_data("\nRn\r")	#speed control mode
@@ -35,10 +38,12 @@ class SpdCtl:
 		number=self.port.write(data.encode())
 		return number
 	def send_heartbeat(self):
-		while True:
+		while(self._running):
 			number=self.port.write("\nD\r".encode())
 			time.sleep(8.01)
 		#return number
+    def terminate_heartbeat(self):
+        self._running=False
 	def read_data(self):
 		while True:
 			data=bytearray()
