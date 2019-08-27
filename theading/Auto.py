@@ -21,6 +21,9 @@ def seq():
 		if cmd == "q":
 			break
 		elif cmd=="run":
+			mSerial.terminate_heartbeat()
+			mSerial.t.join()
+			
 			sp_alt,q_alt=[0,0]
 			for line in open("Speedinput_Python_trq.csv"):
 				stt=time.time()

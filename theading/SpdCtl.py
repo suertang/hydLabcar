@@ -20,8 +20,9 @@ class SpdCtl:
 		self._running=True
 		time.sleep(0.1)
 		self.t=threading.Thread(target=self.send_heartbeat) 
+		self.t.start()
         #watch dog
-        time.sleep(0.1)
+		time.sleep(0.1)
 		self.send_data("\nRs\r") #init 
 		time.sleep(0.1)
 		self.send_data("\nRn\r")	#speed control mode
@@ -42,8 +43,8 @@ class SpdCtl:
 			number=self.port.write("\nD\r".encode())
 			time.sleep(8.01)
 		#return number
-    def terminate_heartbeat(self):
-        self._running=False
+	def terminate_heartbeat(self):
+		self._running=False
 	def read_data(self):
 		while True:
 			data=bytearray()
